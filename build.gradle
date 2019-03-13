@@ -8,9 +8,9 @@
 
 buildscript {
 	repositories {
-	    jcenter()
-	    mavenLocal()
-	    mavenCentral()
+		jcenter()
+		mavenLocal()
+		mavenCentral()
 	}
 }
 
@@ -27,9 +27,9 @@ apply plugin: 'application'
 mainClassName = 'landmaster.apcs.blackjack.Blackjack'
 
 repositories {
-    jcenter()
-    mavenLocal()
-    mavenCentral()
+	jcenter()
+	mavenLocal()
+	mavenCentral()
 }
 
 dependencies {
@@ -41,7 +41,14 @@ dependencies {
 }
 
 gretty {
-    httpPort = 8080
-    contextPath = '/'
-    servletContainer = 'jetty9'
+	httpPort = 8080
+	contextPath = '/'
+	servletContainer = 'jetty9'
 }
+def portEnv = System.getenv("PORT")
+if (portEnv != null) {
+	gretty.httpPort = Integer.parseInt(portEnv)
+}
+
+task stage(dependsOn: ['build', 'clean'])
+build.mustRunAfter clean
