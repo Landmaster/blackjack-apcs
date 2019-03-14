@@ -200,7 +200,7 @@ public class BlackjackServer extends WebSocketServlet {
 					.ifPresent(reply -> {
 						reply.thenAccept(pkt -> {
 							try {
-								pkt.sendTo(session.getRemote());
+								if (pkt != null) pkt.sendTo(session.getRemote());
 							} catch (IOException e) {
 								e.printStackTrace();
 							}

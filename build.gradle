@@ -38,6 +38,7 @@ dependencies {
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.8.1'
 	compile group: 'it.unimi.dsi', name: 'fastutil', version: '8.1.0'
 	compile group: 'com.google.guava', name: 'guava', version: '27.0.1-jre'
+	compile group: 'com.github.jsimone', name: 'webapp-runner', version: '9.0.16.0'
 }
 
 gretty {
@@ -52,3 +53,13 @@ if (portEnv != null) {
 
 task stage(dependsOn: ['war', 'clean'])
 war.mustRunAfter clean
+
+task copyToLib(type: Copy) {
+    into "$buildDir/server"
+    from(configurations.compile) {
+        include "webapp-runner*"
+    }
+}
+
+war.dependsOn(copyToLib)
+build.dependsOn(copyToLib)
